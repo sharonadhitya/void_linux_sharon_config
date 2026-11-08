@@ -1,0 +1,55 @@
+# i3status configuration file
+# A modern, minimal example
+
+general {
+    colors = true
+    interval = 5
+}
+
+# The order of modules determines their order in the bar.
+# We're removing ipv6 and load for a cleaner look.
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery all"
+order += "disk /"
+order += "memory"
+order += "tztime local"
+
+wireless _first_ {
+    # Shows a Wi-Fi icon and just the network name.
+    format_up = "📡 %essid"
+    format_down = "📡 down"
+}
+
+ethernet _first_ {
+    # Shows a plug icon and your IP address.
+    format_up = "🔌 %ip"
+    format_down = "🔌 down"
+}
+
+battery all {
+    # Uses icons for different states. ☻ for full is just an example!
+    format = "%status %percentage"
+    format_down = "No battery"
+    status_chr = "⚡"  # Charging
+    status_bat = "🔋"  # Discharging
+    status_full = "☻" # Full
+    low_threshold = 20
+}
+
+disk "/" {
+    # Shows a disk icon and available space.
+    format = "💾 %avail"
+}
+
+memory {
+    # Shows a brain icon for RAM and how much is available.
+    format = "🧠 %available"
+    threshold_degraded = "1G"
+    format_degraded = "🧠 < %available"
+}
+
+tztime local {
+    # Shows a calendar and a clock for date and time.
+    format = "🗓️ %Y-%m-%d  🕓 %H:%M"
+}

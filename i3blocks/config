@@ -1,0 +1,87 @@
+# Global properties
+# We enable the separator and give it 15px of space for a clean, gapped look.
+separator=true
+separator_block_width=15
+markup=pango
+
+[left_spacer]
+command=~/.config/i3blocks/scripts/center_title.sh left
+interval=1
+separator=false
+
+[centered_window_title]
+command=i3-msg -t get_tree | jq -r '.. | select(.focused? and .focused == true) | .name // empty'
+interval=1
+# Optional: Set a color
+color=#00F5FF
+separator=false
+
+[right_spacer]
+command=~/.config/i3blocks/scripts/center_title.sh right
+interval=1
+separator=false
+
+[uptime]
+label= 
+command=uptime -p | sed 's/up //' # Removes the "up " prefix
+interval=60
+color=#A3BE8C
+
+# Volume Control
+# This block now expects your script to output *only* text (e.g., "80%" or "MUTE").
+# See the script modification in the next step.
+[volume]
+command=~/.config/i3blocks/scripts/volume
+interval=1
+signal=10
+color=#FFA500
+
+[disk]
+label= 
+# This shows available space on your root partition (/)
+command=df -h / | awk 'NR==2 {print $4}'
+interval=60 # Updates every minute
+
+# Memory (RAM) Usage
+# This just prints the value (e.g., "1.2G").
+[memory]
+label= 
+command=free -h | awk 'NR==2 {print $3}'
+interval=5
+color=#FF2C2C
+
+[bluetooth]
+command=~/.config/i3blocks/scripts/bluetooth
+interval=30
+
+
+[network]
+command=~/.config/i3blocks/scripts/network
+interval=10
+color=#FF006E
+
+# Battery and Charger Status
+# This command is modified for a minimal look:
+# C:80% (Charging), D:50% (Discharging), F:100% (Full)
+[battery]
+label=
+command=~/.config/i3blocks/scripts/battery # We'll use a script for icons
+interval=30
+color=#39FF14
+
+# Date
+[date]
+label= 
+command=date '+%b %d'
+interval=3600
+color=#5E81AC
+
+# Time
+[time]
+label= 
+command=date '+%H:%M'
+interval=5
+separator=false
+color=#00FFFF
+
+

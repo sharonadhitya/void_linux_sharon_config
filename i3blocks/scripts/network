@@ -1,0 +1,20 @@
+#!/bin/sh
+# Assumes interface wlo1
+IFACE=wlo1
+
+# Get the SSID from wpa_supplicant
+ssid=$(wpa_cli -i $IFACE status | grep '^ssid=' | cut -d= -f2)
+
+if [ -n "$ssid" ]; then
+    echo "  $ssid"
+elif [ "$(cat /sys/class/net/enp*/carrier 2>/dev/null)" = "1" ]; then
+    # Check for a wired connection
+    echo "🔌 Wired"
+else
+    echo "❌ Disconnected"
+fi
+
+# This is the safe-click command to prevent i3 from freezing
+case $BLOCK_BUTTON in
+    1) (sleep 0.1 && ~/.config/i3blocks/scripts/dmenu-wifi-menu.sh) & ;;
+esac

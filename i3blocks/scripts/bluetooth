@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Check if bluetooth daemon is running
+if ! pgrep -x "bluetoothd" > /dev/null; then
+    echo " Off"
+    exit
+fi
+
+# Check if a device is connected and get its name
+connected_device=$(bluetoothctl info | grep "Name:" | cut -d' ' -f2- | head -n1)
+
+if [ -n "$connected_device" ]; then
+    echo " $connected_device"
+elif [ "$(bluetoothctl show | grep "Powered: yes")" ]; then
+    echo " On"
+else
+    echo " Off"
+fi
+
+# Safe-click command to launch the dmenu action script
+case $BLOCK_BUTTON in
+    1) (sleep 0.1 && ~/.config/i3blocks/scripts/dmenu-bluetooth.sh) & ;;
+esac

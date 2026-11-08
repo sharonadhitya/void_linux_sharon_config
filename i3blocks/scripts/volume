@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Show current volume or MUTE
+VOLUME=$(amixer get Master | awk -F'[]%[]' '/%/ {if ($7 == "off") {print "MUTE"} else {print $2"%"}}' | head -n 1)
+echo "  $VOLUME"
+

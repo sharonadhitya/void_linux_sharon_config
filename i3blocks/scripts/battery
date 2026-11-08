@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Get battery status and percentage
+STATUS=$(acpi -b | awk -F'[,:%]' '{print $2}')
+PERCENT=$(acpi -b | grep -o '[0-9]\+%' | tr -d '%')
+
+# Choose icon based on status
+if [ "$STATUS" = "Charging" ]; then
+    ICON=" " # Nerd Font: nf-fa-plug
+elif [ "$PERCENT" -gt 80 ]; then
+    ICON=" " # Nerd Font: nf-fa-battery_full
+elif [ "$PERCENT" -gt 60 ]; then
+    ICON=" " # Nerd Font: nf-fa-battery_three_quarters
+elif [ "$PERCENT" -gt 40 ]; then
+    ICON=" " # Nerd Font: nf-fa-battery_half
+elif [ "$PERCENT" -gt 20 ]; then
+    ICON=" " # Nerd Font: nf-fa-battery_quarter
+else
+    ICON=" " # Nerd Font: nf-fa-battery_empty
+fi
+
+# Print the icon and percentage
+echo "$ICON $PERCENT%"
